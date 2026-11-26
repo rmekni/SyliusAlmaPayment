@@ -17,7 +17,7 @@ use Alma\SyliusPaymentPlugin\Payum\Gateway\GatewayConfig;
 use Exception;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Psr\Log\LoggerInterface;
-use Sylius\Bundle\CoreBundle\Application\Kernel as Sylius;
+use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 final class AlmaBridge implements AlmaBridgeInterface
@@ -81,7 +81,8 @@ final class AlmaBridge implements AlmaBridgeInterface
                 'logger' => $logger
             ]);
 
-            $alma->addUserAgentComponent('Sylius', Sylius::VERSION);
+            // Sylius 2: the version lives on SyliusCoreBundle (Application\Kernel was removed).
+            $alma->addUserAgentComponent('Sylius', SyliusCoreBundle::VERSION);
             $alma->addUserAgentComponent('Alma for Sylius', AlmaSyliusPaymentPlugin::VERSION);
         } catch (Exception $e) {
             $logger->error('[Alma] Error creating Alma API client: ' . $e->getMessage());

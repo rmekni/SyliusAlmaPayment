@@ -1,0 +1,12 @@
+{# Alma gateway settings on the Sylius 2 admin payment method form (create and update), registered as
+   Twig hooks by AlmaSyliusPaymentExtension::prepend(). Sylius 2 doesn't render a custom gateway's fields by itself. #}
+{% set config = hookable_metadata.context.form.gatewayConfig.config %}
+
+<div>
+    {{ form_row(config.live_api_key) }}
+    {{ form_row(config.test_api_key) }}
+    {{ form_row(config.api_mode) }}
+    {{ form_row(config.installments_count) }}
+    {{ form_row(config.payment_page_mode) }}
+    {{ form_row(config.merchant_id) }}
+</div>

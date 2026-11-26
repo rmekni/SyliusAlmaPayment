@@ -1,3 +1,39 @@
+# Alma for Sylius 2 (fork)
+
+Fork of the official [alma/sylius-payment-plugin](https://github.com/alma/AlmaSyliusPaymentPlugin)
+**2.1.0** (MIT), made compatible with **Sylius 2**. It is not an official Alma package.
+Same PHP namespace (`Alma\SyliusPaymentPlugin`) and same gateway (`alma_payments`), so it replaces
+the official plugin without any change to existing payment methods; `composer.json` declares
+`"replace": {"alma/sylius-payment-plugin": "*"}`.
+
+## Changes from Alma 2.1.0
+
+- `Bridge/AlmaBridge.php`: the Sylius version is read from `SyliusCoreBundle::VERSION`
+  (`Sylius\Bundle\CoreBundle\Application\Kernel` no longer exists in Sylius 2).
+- `services/data_builders.yml`: Sylius 2 service ids `sylius.resolver.shipping_methods` and
+  `sylius.resolver.tax_rate` (were `sylius.shipping_methods_resolver`, `sylius.tax_rate_resolver`).
+- Removed the Sylius 1 "sonata block" JavaScript listener (`services/assets.yml`, class removed
+  from Sylius) and the Sylius 1 checkout template overrides (`views/bundles/SyliusShopBundle`).
+- Admin: the gateway settings are shown on the Sylius 2 payment method form through Twig hooks
+  (`AlmaSyliusPaymentExtension::prepend()`, `views/admin/payment_method/gateway_configuration.html.twig`).
+- `alma/alma-php-client` pinned to `2.6.1`; requires PHP 8.2+ and Sylius 2.
+- Removed Alma's CI configuration (`.github`, `.travis.yml`). The Sylius 1 test application in
+  `tests/` is kept for reference but is not runnable as is.
+
+## Installation (Sylius 2)
+
+```json
+"repositories": [{"type": "vcs", "url": "https://github.com/rmekni/SyliusAlmaPayment.git"}],
+"require": {"agenceweb/alma-sylius-payment-plugin": "@dev"}
+```
+
+Register `Alma\SyliusPaymentPlugin\AlmaSyliusPaymentPlugin::class => ['all' => true]` in
+`config/bundles.php`.
+
+---
+
+Original README:
+
 <p align="center">
     <img src="src/Resources/public/img/alma-logo.svg" alt="logo alma" height="75" style="margin-right:30px" />
     <img src="https://demo.sylius.com/assets/shop/img/logo.png" height="75" />
